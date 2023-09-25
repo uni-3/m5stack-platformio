@@ -1,5 +1,6 @@
-#include <M5Stack.h>
+#include <M5Unified.h>
 #include <SensirionI2CScd4x.h>
+//#include <Radiko.cpp>
 
 SensirionI2CScd4x scd4x;
 
@@ -66,6 +67,7 @@ void co2_loop() {
     }
 }
 
+
 void setup() {
     M5.begin();
     M5.Power.begin();
@@ -95,10 +97,14 @@ void loop() {
     currentMode = MODE_DISPLAY_B;
     M5.Lcd.setTextFont(4);
     M5.Lcd.print("B");
+    // 音がなる
+    M5.Speaker.setVolume(100);
+    M5.Speaker.tone(440, 500);
   }  else if (M5.BtnC.wasPressed()) {
+    // radiko_setup();
     currentMode = MODE_DISPLAY_C;
     // show C in display
-    M5.Lcd.print("C");
+    // M5.Lcd.print("radiko");
   } else if (M5.BtnB.wasReleasefor(700)) {
     M5.Lcd.clear(BLACK);
     M5.Lcd.setCursor(0, 0);
@@ -108,13 +114,12 @@ void loop() {
     case MODE_CO2_LOOP:
       co2_loop();
       break;
-    case MODE_DISPLAY_B:
-      M5.Lcd.setTextFont(4);
-      M5.Lcd.print("B");
-      break;
-    case MODE_DISPLAY_C:
-      M5.Lcd.print("C");
-      break;
+    // case MODE_DISPLAY_B:
+    //   M5.Lcd.setTextFont(4);
+    //   M5.Lcd.print("B");
+    //   break;
+    // case MODE_DISPLAY_C:
+    //   break;
     default:
       break;
   }
